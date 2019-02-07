@@ -1,46 +1,51 @@
 package app;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 public class Stack
 {
-    private List<String> stack = new ArrayList<String>();
-    private int length = 0;
+    private String[] stack;
     private final int MAX;
 
     public Stack(int limit)
     {
+        stack = new String[0];
         this.MAX = limit;
     }
 
     public void print()
     {
         System.out.print("[ ");
-        stack.forEach(e -> System.out.print("'" + e + "', "));
+        for(String e: stack)
+        {
+            System.out.print("'" + e + "', ");
+        }
         System.out.println(" ]");
     }
 
     public String pop()
     {
-        length -= 1;
-        int index = stack.size() - 1;
-        String item = stack.get(index);
-        stack.remove(index);
+        String item = stack[stack.length - 1];
+        stack =  Arrays.copyOfRange(stack, 0, stack.length - 1);
         return item;
     }
 
     public void push(String item)
     {
-        if (MAX > length)
+        if (MAX > stack.length)
         {
-            stack.add(item);
-            length += 1;
+            String[] t = new String[(stack.length + 1)];
+            for(int i = 0; i < stack.length; i++)
+            {
+                t[i] = stack[i];
+            }
+            t[(t.length - 1)] = item;
+            stack = t;
         }
     }
 
     public String numOfItems()
     {
-        return length < 1 ? "There are no items in your Stack" : "" + length;
+        return stack.length < 1 ? "There are no items in your Stack" : "" + stack.length;
     }
 
 }
